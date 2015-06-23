@@ -1,0 +1,17 @@
+{
+    "name": "naga3/qb",
+    "description": "Very simple query builder",
+    "keywords": ["query builder", "pdo"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nagayama Osamu",
+            "email": "osanaga@gmail.com",
+            "homepage": "http://ponk.jp"
+        }
+    ],
+    "autoload": {
+        "classmap": ["qb.php"]
+    }
+}

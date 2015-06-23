@@ -1,0 +1,3 @@
+#!/bin/sh
+phpdoc --directory ./ --target ./doc/ --title "Qb Documentation" --sourcecode
+rm -rf ./doc/phpdoc-cache-*

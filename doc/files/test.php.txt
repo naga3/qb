@@ -1,0 +1,17 @@
+<?php
+require_once 'Qb.php';
+
+Qb::connect('mysql:dbname=test', 'root', '');
+
+
+// $r = Qb('meibo')
+//   ->where('age', 22)
+//   ->set(['age' => 22, 'name' => 'うどん若3'])
+//   ->update();
+
+$r = Qb('meibo')
+  ->count();
+
+echo $r;
+
+
