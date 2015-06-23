@@ -1,5 +1,5 @@
 <?php
-  require_once '../Qb.php';
+  require_once '../qb.php';
   Qb::connect('sqlite:sample.db');
   Qb::db()->exec('CREATE TABLE IF NOT EXISTS contact(id INTEGER PRIMARY KEY, name TEXT, mail TEXT)');
 
