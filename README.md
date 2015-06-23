@@ -14,6 +14,12 @@ Composerを使う場合は、
 composer require naga3/qb
 ```
 
+でインストールし、autoloadで読み込みます。
+
+```php
+require_once 'vendor/autoload.php';
+```
+
 ## サンプル
 
 sample/contact.php が簡単なコンタクトリストのサンプルです。
@@ -76,7 +82,7 @@ $json = Qb('contact')->save(['name' => '鈴木一郎', 'age' => 19]);
 
 contactテーブルにnameカラムが「鈴木一郎」、ageカラムが「19」でレコードを挿入します。
 
-## INSERT OR UPDATE
+## INSERT or UPDATE
 
 ```php
 $json = Qb('contact')->where('age' => 20)->save(['name' => '鈴木一郎', 'age' => 19]);
