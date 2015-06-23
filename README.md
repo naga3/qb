@@ -4,6 +4,18 @@ JavaScriptフレームワークのAPI提供用に作成したPDOクエリビル�
 
 doc/index.html にリファレンスがあります。
 
+## インストール方法
+
+qb.phpをrequireするだけでOKです。
+
+Composerを使う場合は、
+
+```
+composer require naga3/qb
+```
+
+## サンプル
+
 sample/contact.php が簡単なコンタクトリストのサンプルです。
 sample/todo.php がAngularJSを組み合わせたToDoリストのサンプルです。
 どちらのサンプルもPDO_SQLITEモジュールが導入されていればそのまま動きます。
