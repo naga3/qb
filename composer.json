@@ -12,6 +12,6 @@
         }
     ],
     "autoload": {
-        "classmap": ["qb.php"]
+        "files": ["qb.php"]
     }
 }
