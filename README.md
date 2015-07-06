@@ -88,7 +88,7 @@ contactテーブルにnameカラムが「鈴木一郎」、ageカラムが「19�
 $json = Qb('contact')->where('age' => 20)->save(['name' => '鈴木一郎', 'age' => 19]);
 ```
 
-WHERE区がある場合はまずUPDATEを試みて、対象のレコードが無ければINSERTします。
+WHERE句がある場合はまずUPDATEを試みて、対象のレコードが無ければINSERTします。
 
 ## UPDATE
 
