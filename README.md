@@ -1,7 +1,7 @@
 # Qb: very simple query builder
 
-
 JavaScriptフレームワークのAPI提供用に作成したPDOクエリビルダです。
+なるべく短く書けるのを念頭に作成しました。
 
 doc/index.html にリファレンスがあります。
 
@@ -26,6 +26,16 @@ require_once 'vendor/autoload.php';
 sample/contact.php が簡単なコンタクトリストのサンプルです。
 sample/todo.php がAngularJSを組み合わせたToDoリストのサンプルです。
 どちらのサンプルもPDO_SQLITEモジュールが導入されていればそのまま動きます。
+
+# API
+
+## 接続
+
+```php
+Qb::connect('sqlite:sample.db');
+```
+
+指定したDSNに接続します。
 
 ## SELECT
 
