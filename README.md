@@ -1,5 +1,6 @@
 # Qb: very simple query builder
 
+
 JavaScriptフレームワークのAPI提供用に作成したPDOクエリビルダです。
 
 doc/index.html にリファレンスがあります。
