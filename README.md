@@ -1,6 +1,8 @@
 # Qb: very simple query builder
 
-JavaScriptフレームワークのAPI提供用に作成したPDOクエリビルダです。
+https://github.com/naga3/qb
+
+API提供あたりを想定したシンプルなPDOクエリビルダです。
 なるべく短く書けるのを念頭に作成しました。
 
 doc/index.html にリファレンスがあります。
@@ -55,7 +57,7 @@ contactテーブル一覧のname, telカラムを配列で返却します。
 $json = Qb('contact')->select(['name', 't' => 'tel'])->toObject();
 ```
 
-contactテーブル一覧のnameカラムをそのまま、telカラムは別名tで返却します。
+contactテーブル一覧のnameカラムをそのまま、telカラムは別名tでオブジェクトとして返却します。
 
 ## WHERE
 
@@ -116,3 +118,7 @@ $json = Qb('contact')->where('age' => 20)->delete();
 ```
 
 contactテーブルのageカラムが20のレコードを全て削除します。
+
+# 最後に
+
+プルリクまってます！
