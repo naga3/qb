@@ -11,9 +11,7 @@ class Qb {
 
   /** @var array オプション */
   protected static $options = [
-    'primary_key' => 'id',
-    'error_mode' => PDO::ERRMODE_EXCEPTION,
-    'json_options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
+
   ];
 
   /** @var string テーブル名 */
@@ -490,3 +488,4 @@ class Qb {
 function Qb($table) {
   return new Qb($table);
 }
+

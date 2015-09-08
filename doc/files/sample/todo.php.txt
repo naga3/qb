@@ -1,57 +1,50 @@
 <?php
-  require_once '../Qb.php';
+  require_once '../qb.php';
   Qb::connect('sqlite:sample.db');
   Qb::db()->exec('CREATE TABLE IF NOT EXISTS todo(id INTEGER PRIMARY KEY, title TEXT, completed INTEGER)');
-
-  if (!empty($_GET['c'])) {
-    switch ($_GET['c']) {
-    case 'list':
+  if (isset($_GET['id'])) {
+    switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
       echo Qb('todo')->toJson();
-      exit;
-    case 'post':
-      Qb('todo')->save(['title' => $_GET['title'], 'completed' => 0]);
-      exit;
-    case 'delete':
-      Qb('todo')->where('id', $_GET['id'])->delete();
-      exit;
-    case 'change':
-      Qb('todo')->where('id', $_GET['id'])->save('completed', $_GET['completed']);
-      exit;
+      break;
+    case 'POST':
+      $in = json_decode(file_get_contents('php://input'), true);
+      if (isset($in['id'])) {
+        Qb('todo')->where($in['id'])->save('completed', $in['completed']);
+      } else {
+        Qb('todo')->save(['title' => $in['title'], 'completed' => 0]);
+      }
+      break;
+    case 'DELETE':
+      Qb('todo')->delete($_GET['id']);
+      break;
     }
+    exit;
   }
 ?>
 <!DOCTYPE html>
-<html lang="ja" ng-app="app">
+<html ng-app="app">
 <head>
 <meta charset="UTF-8">
 <title>ToDo</title>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-resource.min.js"></script>
 <script>
-angular.module('app', []).controller('MainController', function($scope, $http) {
-  function api(c, params) {
-    params = params || {};
-    params.c = c;
-    return $http.get('', {params: params});
-  }
-  function init() {
-    $scope.title = '';
-    api('list').success(function(res) {
-      $scope.todos = res;
-    });
-  }
-  init();
+angular.module('app', ['ngResource']).controller('MainController', function($scope, $resource) {
+  var res = $resource('?id=:id');
+  $scope.todos = res.query();
   $scope.post = function() {
-    api('post', {title: $scope.title}).success(function() {
-      init();
+    res.save({title: $scope.title}, function() {
+      location.reload();
     });
   };
   $scope.delete = function(id) {
-    api('delete', {id: id}).success(function() {
-      init();
+    res.delete({id: id}, function() {
+      location.reload();
     });
   };
   $scope.change = function(todo) {
-    api('change', {id: todo.id, completed: todo.completed});
+    res.save({id: todo.id, completed: todo.completed});
   };
 });
 </script>

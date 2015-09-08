@@ -10,13 +10,13 @@
     case 'POST':
       $in = json_decode(file_get_contents('php://input'), true);
       if (isset($in['id'])) {
-        Qb('todo')->where('id', $in['id'])->save('completed', $in['completed']);
+        Qb('todo')->where($in['id'])->save('completed', $in['completed']);
       } else {
         Qb('todo')->save(['title' => $in['title'], 'completed' => 0]);
       }
       break;
     case 'DELETE':
-      Qb('todo')->where('id', $_GET['id'])->delete();
+      Qb('todo')->delete($_GET['id']);
       break;
     }
     exit;

@@ -66,10 +66,18 @@ contactテーブル一覧のnameカラムをそのまま、telカラムは別名
 ## WHERE
 
 ```php
-$json = Qb('contact')->where('status', 1)->toJson();
+$json = Qb('contact')->where('id', 1)->oneArray();
 ```
 
-contactテーブルのstatusカラムが1のものを返却します。
+contactテーブルのidカラムが1のものを一行返却します。
+
+```php
+$json = Qb('contact')->where(1)->oneArray(); // idカラムの場合、カラム指定を省略可能
+$json = Qb('contact')->oneArray('id', 1);
+$json = Qb('contact')->oneArray(1);
+```
+
+このような省略記法もあります。
 
 ```php
 $json = Qb('contact')->whereGte('status', 1)->whereLike('name', '%山田%')->toJson();
@@ -120,13 +128,52 @@ $json = Qb('contact')->where('age' => 20)->update(['name' => '鈴木一郎', 'ag
 ```php
 $json = Qb('contact')->where('age' => 20)->delete();
 ```
+
 contactテーブルのageカラムが20のレコードを全て削除します。
 
-## その他メソッド
+## ORDER BY
 
-asc, desc, offset, limit などがあります。名前通りの機能です。
+```php
+$json = Qb('contact')->asc('created_at')->toJson();
+```
 
-db メソッドで生のPDOオブジェクトを取得できます。
+contactテーブルの一覧をcreated_atカラムの昇順で返します。
+
+```php
+$json = Qb('contact')->desc('created_at')->toJson();
+```
+
+contactテーブルの一覧をcreated_atカラムの降順で返します。
+
+## OFFSET, LIMIT
+
+```php
+$json = Qb('contact')->offset(10)->limit(5)->toJson();
+```
+
+contactテーブルの一覧の10件目から5件を取得します。
+
+## PDOオブジェクト取得
+
+```php
+$db = Qb('contact')->db();
+```
+
+生のPDOオブジェクトを取得します。トランザクションを張る場合などにどうぞ。
+
+## 接続時のオプション
+
+```php
+$options = [
+  // プライマリキー
+  'primary_key' => 'id',
+  // ERRMODE
+  'error_mode' => PDO::ERRMODE_EXCEPTION,
+  // json_encode時のオプション
+  'json_options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
+];
+Qb::connect($dsn, $user, $pass, $options);
+```
 
 # 最後に
 
