@@ -5,6 +5,8 @@ https://github.com/naga3/qb
 API提供あたりを想定したシンプルなPDOクエリビルダです。
 なるべく短く書けるのを念頭に作成しました。
 
+1プログラム1接続が前提で、大規模なプログラムには向いていません。
+
 doc/index.html にリファレンスがあります。
 
 ## インストール方法
@@ -116,8 +118,13 @@ $json = Qb('contact')->where('age' => 20)->update(['name' => '鈴木一郎', 'ag
 ```php
 $json = Qb('contact')->where('age' => 20)->delete();
 ```
-
 contactテーブルのageカラムが20のレコードを全て削除します。
+
+## その他メソッド
+
+asc, desc, offset, limit などがあります。名前通りの機能です。
+
+db メソッドで生のPDOオブジェクトを取得できます。
 
 # 最後に
 
