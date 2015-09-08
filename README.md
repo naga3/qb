@@ -1,6 +1,7 @@
 # Qb: very simple query builder
 
 https://github.com/naga3/qb
+
 https://packagist.org/packages/naga3/qb
 
 API提供あたりを想定したシンプルなPDOクエリビルダです。
