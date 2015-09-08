@@ -110,7 +110,7 @@ contactテーブルにnameカラムが「鈴木一郎」、ageカラムが「19�
 ## INSERT or UPDATE
 
 ```php
-$json = Qb('contact')->where('age' => 20)->save(['name' => '鈴木一郎', 'age' => 19]);
+$json = Qb('contact')->where('age', 20)->save(['name' => '鈴木一郎', 'age' => 19]);
 ```
 
 WHERE句がある場合はまずUPDATEを試みて、対象のレコードが無ければINSERTします。
@@ -118,7 +118,7 @@ WHERE句がある場合はまずUPDATEを試みて、対象のレコードが無
 ## UPDATE
 
 ```php
-$json = Qb('contact')->where('age' => 20)->update(['name' => '鈴木一郎', 'age' => 19]);
+$json = Qb('contact')->where('age', 20)->update(['name' => '鈴木一郎', 'age' => 19]);
 ```
 
 こちらは対象のレコードが無くてもINSERTされません。
@@ -126,10 +126,16 @@ $json = Qb('contact')->where('age' => 20)->update(['name' => '鈴木一郎', 'ag
 ## DELETE
 
 ```php
-$json = Qb('contact')->where('age' => 20)->delete();
+$json = Qb('contact')->where('age', 20)->delete();
 ```
 
 contactテーブルのageカラムが20のレコードを全て削除します。
+
+```php
+$json = Qb('contact')->delete(1);
+```
+
+contactテーブルのidカラムが1のレコードを削除します。
 
 ## ORDER BY
 
