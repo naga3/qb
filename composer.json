@@ -13,5 +13,8 @@
     ],
     "autoload": {
         "files": ["qb.php"]
+    },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.*"
     }
 }

@@ -55,10 +55,8 @@ angular.module('app', ['ngResource']).controller('MainController', function($sco
   <span ng-style="{textDecoration: todo.completed === '1' ? 'line-through' : 'none'}">{{todo.title}}</span>
   <span style="cursor: pointer" ng-click="delete(todo.id)">✕</span>
 </p>
-<form ng-submit="post()">
-  <input ng-model="title">
-  <button>post</button>
-</form>
+<input ng-model="title">
+<button ng-click="post()">post</button>
 </body>
 </html>
 

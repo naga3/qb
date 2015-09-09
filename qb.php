@@ -9,12 +9,10 @@ class Qb {
   /** @var PDO PDOインスタンス */
   protected static $db = null;
 
-  /** @var array オプション */
-  protected static $options = [
-    'primary_key' => 'id',
-    'error_mode' => PDO::ERRMODE_EXCEPTION,
-    'json_options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
-  ];
+  /**
+   * @var array オプション
+   */
+  protected static $options = [];
 
   /** @var string テーブル名 */
   protected $table = null;
@@ -79,7 +77,11 @@ class Qb {
       $options = $pass;
       $pass = '';
     }
-    self::$options = array_merge(self::$options, $options);
+    self::$options = array_merge([
+      'primary_key' => 'id',
+      'error_mode' => PDO::ERRMODE_EXCEPTION,
+      'json_options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
+    ], $options);
     self::$db = new PDO($dsn, $user, $pass);
     self::$db->setAttribute(PDO::ATTR_ERRMODE, self::$options['error_mode']);
   }
