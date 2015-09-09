@@ -1,6 +1,12 @@
 <?php
 /**
- * クエリビルダ
+ * Qb: Very simple query builder
+ *
+ * @author Osamu Nagayama
+ */
+
+/**
+ * クエリビルダクラス
  *
  * @since PHP 5.4
  */
@@ -9,9 +15,7 @@ class Qb {
   /** @var PDO PDOインスタンス */
   protected static $db = null;
 
-  /**
-   * @var array オプション
-   */
+  /** @var array 接続時のオプション */
   protected static $options = [];
 
   /** @var string テーブル名 */
@@ -20,16 +24,16 @@ class Qb {
   /** @var array SELECTカラム */
   protected $columns = [];
 
-  /** @var array JOIN */
+  /** @var array JOIN句 */
   protected $joins = [];
 
   /** @var array WHERE条件 */
   protected $conditions = [];
 
-  /** @var array WHERE条件条件バインド */
+  /** @var array WHERE条件のバインド値 */
   protected $condition_binds = [];
 
-  /** @var array 挿入・更新値 */
+  /** @var array 挿入・更新 */
   protected $sets = [];
 
   /** @var array 挿入・更新バインド */
@@ -47,7 +51,7 @@ class Qb {
   /**
    * PDOインスタンスを取得する。
    *
-   * @return PDOインスタンス
+   * @return PDO PDOインスタンス
    */
   public static function db() {
     return self::$db;
@@ -56,17 +60,20 @@ class Qb {
   /**
    * データベースに接続する。
    *
-   * Qb::connect(DSN);
-   * Qb::connect(DSN, user);
-   * Qb::connect(DSN, user, pass);
-   * Qb::connect(DSN, user, pass, options);
-   * Qb::connect(DSN, options);
-   * Qb::connect(DSN, user, options);
+   * Qb::connect($dsn); // ユーザー名とパスワードは空文字、オプションはデフォルト<br>
+   * Qb::connect($dsn, $user); // パスワードは空文字、オプションはデフォルト<br>
+   * Qb::connect($dsn, $user, $pass); // オプションはデフォルト<br>
+   * Qb::connect($dsn, $user, $pass, $options);<br>
+   * Qb::connect($dsn, $options);<br>
+   * Qb::connect($dsn, $user, $options);<br>
    *
    * @param string $dsn 接続文字列
    * @param string $user ユーザー名
    * @param string $pass パスワード
-   * @param array $options オプション
+   * @param array $options オプション<br>
+   *  primary_key: プライマリキーのカラム名 default: 'id'<br>
+   *  error_mode: エラーモード default: PDO::ERRMODE_EXCEPTION<br>
+   *  json_options: JSONエンコード時のオプション default: JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT<br>
    */
   public static function connect($dsn, $user = '', $pass = '', $options = []) {
     if (is_array($user)) {
@@ -110,6 +117,8 @@ class Qb {
    * select(['alias1' => 'column1', 'column2', …])<br>
    *
    * @param string|array $columns カラム名
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function select($columns) {
     if (!is_array($columns)) $columns = array($columns);
@@ -125,6 +134,8 @@ class Qb {
    *
    * @param string $table JOINするテーブル名
    * @param string $condition 条件
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function join($table, $condition) {
     array_push($this->joins, "INNER JOIN $table ON $condition");
@@ -136,6 +147,8 @@ class Qb {
    *
    * @param string $table JOINするテーブル名
    * @param string $condition 条件
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function leftJoin($table, $condition) {
     array_push($this->joins, "LEFT JOIN $table ON $condition");
@@ -150,6 +163,8 @@ class Qb {
    *
    * @param string $column カラム名
    * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function where($column, $value = null) {
     if ($value === null) {
@@ -165,6 +180,8 @@ class Qb {
    *
    * @param string $column カラム名
    * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function whereNot($column, $value) {
     $this->_where($column, '<>', $value);
@@ -176,6 +193,8 @@ class Qb {
    *
    * @param string $column カラム名
    * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function whereGt($column, $value) {
     $this->_where($column, '>', $value);
@@ -187,6 +206,8 @@ class Qb {
    *
    * @param string $column カラム名
    * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function whereGte($column, $value) {
     $this->_where($column, '>=', $value);
@@ -198,6 +219,8 @@ class Qb {
    *
    * @param string $column カラム名
    * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function whereLt($column, $value) {
     $this->_where($column, '<', $value);
@@ -209,6 +232,8 @@ class Qb {
    *
    * @param string $column カラム名
    * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function whereLte($column, $value) {
     $this->_where($column, '<=', $value);
@@ -220,6 +245,8 @@ class Qb {
    *
    * @param string $column カラム名
    * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function whereLike($column, $value) {
     $this->_where($column, 'LIKE', $value);
@@ -231,6 +258,8 @@ class Qb {
    *
    * @param string $column カラム名
    * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function whereNotLike($column, $value) {
     $this->_where($column, 'NOT LIKE', $value);
@@ -242,6 +271,8 @@ class Qb {
    *
    * @param string $column カラム名
    * @param array $values 値の配列
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function whereIn($column, $values) {
     $this->_where($column, 'IN', $values);
@@ -253,6 +284,8 @@ class Qb {
    *
    * @param string $column カラム名
    * @param array $values 値の配列
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function whereNotIn($column, $values) {
     $this->_where($column, 'NOT IN', $values);
@@ -281,6 +314,11 @@ class Qb {
 
   /**
    * 条件セット
+   *
+   * @param string $column カラム名
+   * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function set($column, $value = null) {
     if (is_array($column)) {
@@ -294,6 +332,10 @@ class Qb {
 
   /**
    * ORDER BY ASC
+   *
+   * @param string $column カラム名
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function asc($column) {
     $this->order = " ORDER BY $column ASC";
@@ -302,6 +344,10 @@ class Qb {
 
   /**
    * ORDER BY DESC
+   *
+   * @param string $column カラム名
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function desc($column) {
     $this->order = " ORDER BY $column DESC";
@@ -310,6 +356,10 @@ class Qb {
 
   /**
    * LIMIT
+   *
+   * @param integer $num LIMIT値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function limit($num) {
     $this->limit = " LIMIT $num";
@@ -318,6 +368,10 @@ class Qb {
 
   /**
    * OFFSET
+   *
+   * @param integer $num OFFSET値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function offset($num) {
     $this->offset = " OFFSET $num";
@@ -326,6 +380,11 @@ class Qb {
 
   /**
    * UPDATE or INSERT
+   *
+   * @param string $column カラム名
+   * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function save($column = null, $value = null) {
     if ($column) $this->set($column, $value);
@@ -334,6 +393,11 @@ class Qb {
 
   /**
    * UPDATE
+   *
+   * @param string $column カラム名
+   * @param mixed $value 値
+   *
+   * @return Qb 自分自身のインスタンス
    */
   public function update($column = null, $value = null) {
     if ($column) $this->set($column, $value);
@@ -342,6 +406,8 @@ class Qb {
 
   /**
    * 配列で返す。
+   *
+   * @return array 複数のレコードデータ
    */
   public function toArray() {
     $st = $this->_build();
@@ -350,6 +416,8 @@ class Qb {
 
   /**
    * オブジェクトで返す。
+   *
+   * @return object 複数のレコードデータ
    */
   public function toObject() {
     $st = $this->_build();
@@ -358,6 +426,8 @@ class Qb {
 
   /**
    * JSONで返す。
+   *
+   * @return string 複数のレコードデータ
    */
   public function toJson() {
     $rows = $this->toArray();
@@ -366,6 +436,11 @@ class Qb {
 
   /**
    * 最初のレコードのみを配列で返す。
+   *
+   * @param string $column カラム名
+   * @param mixed $value 値
+   *
+   * @return array 単一のレコードデータ
    */
   public function oneArray($column = null, $value = null) {
     if ($column !== null) {
@@ -377,6 +452,11 @@ class Qb {
 
   /**
    * 最初のレコードのみをオブジェクトで返す。
+   *
+   * @param string $column カラム名
+   * @param mixed $value 値
+   *
+   * @return object 単一のレコードデータ
    */
   public function oneObject($column = null, $value = null) {
     if ($column !== null) {
@@ -388,6 +468,11 @@ class Qb {
 
   /**
    * 最初のレコードのみをJSONで返す。
+   *
+   * @param string $column カラム名
+   * @param mixed $value 値
+   *
+   * @return string 単一のレコードデータ
    */
   public function oneJson($column = null, $value = null) {
     if ($column !== null) {
@@ -399,6 +484,8 @@ class Qb {
 
   /**
    * レコード数を返す。
+   *
+   * @return integer レコード数
    */
   public function count() {
     $st = $this->_build(array('count' => true));
@@ -407,6 +494,9 @@ class Qb {
 
   /**
    * DELETE
+   *
+   * @param string $column カラム名
+   * @param mixed $value 値
    */
   public function delete($column = null, $value = null) {
     if ($column !== null) {
@@ -417,8 +507,12 @@ class Qb {
 
   /**
    * SQL組み立て 内部使用
+   *
+   * @param array $params オプション
+   *
+   * @return PDOStatement PDOStatement
    */
-  protected function _build($params = array()) {
+  protected function _build($params = []) {
     $sql = '';
     $sql_where = '';
 
@@ -474,6 +568,10 @@ class Qb {
 
   /**
    * クエリ発行 内部使用
+   *
+   * @param string $sql SQL文
+   *
+   * @return PDOStatement PDOStatement
    */
   protected function _query($sql) {
     $binds = array_merge($this->set_binds, $this->condition_binds);
@@ -487,6 +585,7 @@ class Qb {
  * メソッドチェーンの起点となる関数。
  *
  * @param string $table テーブル名
+ *
  * @return Qb Qbインスタンス
  */
 function Qb($table) {

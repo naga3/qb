@@ -106,7 +106,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">21</span>
+                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-300337056"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1231409349"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-300337056" class="accordion-body collapse in">
+            <div id="namespace-1231409349" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -163,7 +163,7 @@
                     <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
 
                     <h1><small>\</small>Qb</h1>
-                    <p><em>クエリビルダ</em></p>
+                    <p><em>クエリビルダクラス</em></p>
                     
                     
                                         
@@ -334,7 +334,7 @@
 
                                 <h4>Type</h4>
                 array
-                &mdash; オプション                            </article>
+                &mdash; 接続時のオプション                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -406,7 +406,7 @@
 
                                 <h4>Type</h4>
                 array
-                &mdash; JOIN                            </article>
+                &mdash; JOIN句                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -454,7 +454,7 @@
 
                                 <h4>Type</h4>
                 array
-                &mdash; WHERE条件条件バインド                            </article>
+                &mdash; WHERE条件のバインド値                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -478,7 +478,7 @@
 
                                 <h4>Type</h4>
                 array
-                &mdash; 挿入・更新値                            </article>
+                &mdash; 挿入・更新                            </article>
         </div>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
@@ -600,14 +600,15 @@
             <article class="method">
                 <h3 class="public ">db()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">db() : \PDOインスタンス</pre>
+                <pre class="signature" style="margin-right: 54px;">db() : \PDO</pre>
                 <p><em>PDOインスタンスを取得する。</em></p>
                 
 
                 
                 
                                     <h4>Returns</h4>
-                    \PDOインスタンス
+                    \PDO
+                                            &mdash; <p>PDOインスタンス</p>
                                     				
                             </article>
         </div>
@@ -631,12 +632,12 @@
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
                 <pre class="signature" style="margin-right: 54px;">connect(string  <span class="argument">$dsn</span>, string  <span class="argument">$user = &#039;&#039;</span>, string  <span class="argument">$pass = &#039;&#039;</span>, array  <span class="argument">$options = array()</span>) </pre>
                 <p><em>データベースに接続する。</em></p>
-                <p>Qb::connect(DSN);
-Qb::connect(DSN, user);
-Qb::connect(DSN, user, pass);
-Qb::connect(DSN, user, pass, options);
-Qb::connect(DSN, options);
-Qb::connect(DSN, user, options);</p>
+                <p>Qb::connect($dsn); // ユーザー名とパスワードは空文字、オプションはデフォルト<br>
+Qb::connect($dsn, $user); // パスワードは空文字、オプションはデフォルト<br>
+Qb::connect($dsn, $user, $pass); // オプションはデフォルト<br>
+Qb::connect($dsn, $user, $pass, $options);<br>
+Qb::connect($dsn, $options);<br>
+Qb::connect($dsn, $user, $options);<br></p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -658,7 +659,10 @@ Qb::connect(DSN, user, options);</p>
                                                     <tr>
                                 <td>array</td>
                                 <td>$options </td>
-                                <td><p>オプション</p></td>
+                                <td><p>オプション<br>
+primary_key: プライマリキーのカラム名 default: 'id'<br>
+error_mode: エラーモード default: PDO::ERRMODE_EXCEPTION<br>
+json_options: JSONエンコード時のオプション default: JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT<br></p></td>
                             </tr>
                                             </table>
                 
@@ -718,7 +722,7 @@ Qb::connect(DSN, user, options);</p>
             <article class="method">
                 <h3 class="public ">select()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">select(string|array  <span class="argument">$columns</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">select(string|array  <span class="argument">$columns</span>) : \Qb</pre>
                 <p><em>SELECT</em></p>
                 <p>カラムが複数のときは配列もしくはメソッドチェーンで複数回呼び出す。<br>
 キーに別名を設定することが出来る。<br>
@@ -738,7 +742,10 @@ select(['alias1' =&gt; 'column1', 'column2', …])<br></p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -758,7 +765,7 @@ select(['alias1' =&gt; 'column1', 'column2', …])<br></p>
             <article class="method">
                 <h3 class="public ">join()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">join(string  <span class="argument">$table</span>, string  <span class="argument">$condition</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">join(string  <span class="argument">$table</span>, string  <span class="argument">$condition</span>) : \Qb</pre>
                 <p><em>INNER JOIN</em></p>
                 
 
@@ -777,7 +784,10 @@ select(['alias1' =&gt; 'column1', 'column2', …])<br></p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -797,7 +807,7 @@ select(['alias1' =&gt; 'column1', 'column2', …])<br></p>
             <article class="method">
                 <h3 class="public ">leftJoin()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">leftJoin(string  <span class="argument">$table</span>, string  <span class="argument">$condition</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">leftJoin(string  <span class="argument">$table</span>, string  <span class="argument">$condition</span>) : \Qb</pre>
                 <p><em>LEFT OUTER JOIN</em></p>
                 
 
@@ -816,7 +826,10 @@ select(['alias1' =&gt; 'column1', 'column2', …])<br></p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -836,7 +849,7 @@ select(['alias1' =&gt; 'column1', 'column2', …])<br></p>
             <article class="method">
                 <h3 class="public ">where()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">where(string  <span class="argument">$column</span>, mixed  <span class="argument">$value = null</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">where(string  <span class="argument">$column</span>, mixed  <span class="argument">$value = null</span>) : \Qb</pre>
                 <p><em>WHERE =</em></p>
                 <p>where(column, value)
 where(value) カラムはidで固定（オプションで変更可）</p>
@@ -856,7 +869,10 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -876,7 +892,7 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">whereNot()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">whereNot(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">whereNot(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) : \Qb</pre>
                 <p><em>WHERE &lt;&gt;</em></p>
                 
 
@@ -895,7 +911,10 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -915,7 +934,7 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">whereGt()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">whereGt(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">whereGt(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) : \Qb</pre>
                 <p><em>WHERE &gt;</em></p>
                 
 
@@ -934,7 +953,10 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -954,7 +976,7 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">whereGte()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">whereGte(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">whereGte(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) : \Qb</pre>
                 <p><em>WHERE &gt;=</em></p>
                 
 
@@ -973,7 +995,10 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -993,7 +1018,7 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">whereLt()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">whereLt(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">whereLt(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) : \Qb</pre>
                 <p><em>WHERE &lt;</em></p>
                 
 
@@ -1012,7 +1037,10 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1032,7 +1060,7 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">whereLte()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">whereLte(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">whereLte(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) : \Qb</pre>
                 <p><em>WHERE &lt;=</em></p>
                 
 
@@ -1051,7 +1079,10 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1071,7 +1102,7 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">whereLike()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">whereLike(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">whereLike(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) : \Qb</pre>
                 <p><em>WHERE LIKE</em></p>
                 
 
@@ -1090,7 +1121,10 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1110,7 +1144,7 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">whereNotLike()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">whereNotLike(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">whereNotLike(string  <span class="argument">$column</span>, mixed  <span class="argument">$value</span>) : \Qb</pre>
                 <p><em>WHERE NOT LIKE</em></p>
                 
 
@@ -1129,7 +1163,10 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1149,7 +1186,7 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">whereIn()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">whereIn(string  <span class="argument">$column</span>, array  <span class="argument">$values</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">whereIn(string  <span class="argument">$column</span>, array  <span class="argument">$values</span>) : \Qb</pre>
                 <p><em>WHERE IN</em></p>
                 
 
@@ -1168,7 +1205,10 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1188,7 +1228,7 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">whereNotIn()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">whereNotIn(string  <span class="argument">$column</span>, array  <span class="argument">$values</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">whereNotIn(string  <span class="argument">$column</span>, array  <span class="argument">$values</span>) : \Qb</pre>
                 <p><em>WHERE NOT IN</em></p>
                 
 
@@ -1207,7 +1247,10 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1227,26 +1270,29 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">set()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">set(  <span class="argument">$column</span>,   <span class="argument">$value = null</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">set(string  <span class="argument">$column</span>, mixed  <span class="argument">$value = null</span>) : \Qb</pre>
                 <p><em>条件セット</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$column </td>
-                                <td></td>
+                                <td><p>カラム名</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>mixed</td>
                                 <td>$value </td>
-                                <td></td>
+                                <td><p>値</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1266,21 +1312,24 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">asc()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">asc(  <span class="argument">$column</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">asc(string  <span class="argument">$column</span>) : \Qb</pre>
                 <p><em>ORDER BY ASC</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$column </td>
-                                <td></td>
+                                <td><p>カラム名</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1300,21 +1349,24 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">desc()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">desc(  <span class="argument">$column</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">desc(string  <span class="argument">$column</span>) : \Qb</pre>
                 <p><em>ORDER BY DESC</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$column </td>
-                                <td></td>
+                                <td><p>カラム名</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1334,21 +1386,24 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">limit()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">limit(  <span class="argument">$num</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">limit(integer  <span class="argument">$num</span>) : \Qb</pre>
                 <p><em>LIMIT</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>integer</td>
                                 <td>$num </td>
-                                <td></td>
+                                <td><p>LIMIT値</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1368,21 +1423,24 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">offset()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">offset(  <span class="argument">$num</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">offset(integer  <span class="argument">$num</span>) : \Qb</pre>
                 <p><em>OFFSET</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>integer</td>
                                 <td>$num </td>
-                                <td></td>
+                                <td><p>OFFSET値</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1402,26 +1460,29 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">save()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">save(  <span class="argument">$column = null</span>,   <span class="argument">$value = null</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">save(string  <span class="argument">$column = null</span>, mixed  <span class="argument">$value = null</span>) : \Qb</pre>
                 <p><em>UPDATE or INSERT</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$column </td>
-                                <td></td>
+                                <td><p>カラム名</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>mixed</td>
                                 <td>$value </td>
-                                <td></td>
+                                <td><p>値</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1441,26 +1502,29 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">update()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">update(  <span class="argument">$column = null</span>,   <span class="argument">$value = null</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">update(string  <span class="argument">$column = null</span>, mixed  <span class="argument">$value = null</span>) : \Qb</pre>
                 <p><em>UPDATE</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$column </td>
-                                <td></td>
+                                <td><p>カラム名</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>mixed</td>
                                 <td>$value </td>
-                                <td></td>
+                                <td><p>値</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    <a href="../classes/Qb.html">\Qb</a>
+                                            &mdash; <p>自分自身のインスタンス</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1480,13 +1544,16 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">toArray()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">toArray() </pre>
+                <pre class="signature" style="margin-right: 54px;">toArray() : array</pre>
                 <p><em>配列で返す。</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>複数のレコードデータ</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1506,13 +1573,16 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">toObject()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">toObject() </pre>
+                <pre class="signature" style="margin-right: 54px;">toObject() : object</pre>
                 <p><em>オブジェクトで返す。</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>複数のレコードデータ</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1532,13 +1602,16 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">toJson()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">toJson() </pre>
+                <pre class="signature" style="margin-right: 54px;">toJson() : string</pre>
                 <p><em>JSONで返す。</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>複数のレコードデータ</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1558,26 +1631,29 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">oneArray()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">oneArray(  <span class="argument">$column = null</span>,   <span class="argument">$value = null</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">oneArray(string  <span class="argument">$column = null</span>, mixed  <span class="argument">$value = null</span>) : array</pre>
                 <p><em>最初のレコードのみを配列で返す。</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$column </td>
-                                <td></td>
+                                <td><p>カラム名</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>mixed</td>
                                 <td>$value </td>
-                                <td></td>
+                                <td><p>値</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>単一のレコードデータ</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1597,26 +1673,29 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">oneObject()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">oneObject(  <span class="argument">$column = null</span>,   <span class="argument">$value = null</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">oneObject(string  <span class="argument">$column = null</span>, mixed  <span class="argument">$value = null</span>) : object</pre>
                 <p><em>最初のレコードのみをオブジェクトで返す。</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$column </td>
-                                <td></td>
+                                <td><p>カラム名</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>mixed</td>
                                 <td>$value </td>
-                                <td></td>
+                                <td><p>値</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    object
+                                            &mdash; <p>単一のレコードデータ</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1636,26 +1715,29 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">oneJson()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">oneJson(  <span class="argument">$column = null</span>,   <span class="argument">$value = null</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">oneJson(string  <span class="argument">$column = null</span>, mixed  <span class="argument">$value = null</span>) : string</pre>
                 <p><em>最初のレコードのみをJSONで返す。</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$column </td>
-                                <td></td>
+                                <td><p>カラム名</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>mixed</td>
                                 <td>$value </td>
-                                <td></td>
+                                <td><p>値</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>単一のレコードデータ</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1675,13 +1757,16 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">count()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">count() </pre>
+                <pre class="signature" style="margin-right: 54px;">count() : integer</pre>
                 <p><em>レコード数を返す。</em></p>
                 
 
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>レコード数</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1701,21 +1786,21 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="public ">delete()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">delete(  <span class="argument">$column = null</span>,   <span class="argument">$value = null</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">delete(string  <span class="argument">$column = null</span>, mixed  <span class="argument">$value = null</span>) </pre>
                 <p><em>DELETE</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$column </td>
-                                <td></td>
+                                <td><p>カラム名</p></td>
                             </tr>
                                                     <tr>
-                                <td></td>
+                                <td>mixed</td>
                                 <td>$value </td>
-                                <td></td>
+                                <td><p>値</p></td>
                             </tr>
                                             </table>
                 
@@ -1784,21 +1869,24 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="protected ">_build()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">_build(  <span class="argument">$params = array()</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">_build(array  <span class="argument">$params = array()</span>) : \PDOStatement</pre>
                 <p><em>SQL組み立て 内部使用</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>array</td>
                                 <td>$params </td>
-                                <td></td>
+                                <td><p>オプション</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    \PDOStatement
+                                            &mdash; <p>PDOStatement</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1818,21 +1906,24 @@ where(value) カラムはidで固定（オプションで変更可）</p>
             <article class="method">
                 <h3 class="protected ">_query()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">_query(  <span class="argument">$sql</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">_query(string  <span class="argument">$sql</span>) : \PDOStatement</pre>
                 <p><em>クエリ発行 内部使用</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
                                                     <tr>
-                                <td></td>
+                                <td>string</td>
                                 <td>$sql </td>
-                                <td></td>
+                                <td><p>SQL文</p></td>
                             </tr>
                                             </table>
                 
                 
-                				
+                                    <h4>Returns</h4>
+                    \PDOStatement
+                                            &mdash; <p>PDOStatement</p>
+                                    				
                             </article>
         </div>
         <aside class="span4 detailsbar">
@@ -1895,7 +1986,7 @@ where(value) カラムはidで固定（オプションで変更可）</p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on September 9th, 2015 at 06:22.
+                    on September 9th, 2015 at 07:51.
                 </section>
             </section>
         </section>
