@@ -2,6 +2,7 @@
 /**
  * Qb: Very simple query builder
  *
+ * @version 1.0.5
  * @author Osamu Nagayama
  */
 
