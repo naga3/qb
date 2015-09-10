@@ -2,3 +2,4 @@
 composer.lock
 composer.phar
 /sample/sample.db
+/test/qb_test.db

@@ -34,7 +34,7 @@ class Qb {
   /** @var array WHERE条件のバインド値 */
   protected $condition_binds = [];
 
-  /** @var array 挿入・更新 */
+  /** @var array 挿入・更新カラムと値のセット */
   protected $sets = [];
 
   /** @var array 挿入・更新バインド */
@@ -48,6 +48,17 @@ class Qb {
 
   /** @var string OFFSET */
   protected $offset = '';
+
+  /**
+   * コンストラクタ
+   *
+   * newでオブジェクトを生成せず、関数Qbを使うこと。
+   *
+   * @param string $table テーブル名
+   */
+  public function __construct($table) {
+    $this->table = $table;
+  }
 
   /**
    * PDOインスタンスを取得する。
@@ -95,14 +106,26 @@ class Qb {
   }
 
   /**
-   * コンストラクタ
-   *
-   * newでオブジェクトを生成せず、関数Qbを使うこと。
-   *
-   * @param string $table テーブル名
+   * データベースから切断する。
    */
-  public function __construct($table) {
-    $this->table = $table;
+  public static function close() {
+    self::$db = null;
+  }
+
+  /**
+   * オプション値の設定・取得
+   *
+   * $valueをセットした場合は設定、省略した場合は取得する。
+   *
+   * @param string $name オプション名
+   * @param mixed $value オプション値
+   */
+  public static function config($name, $value = null) {
+    if ($value === null) {
+      return self::$options[$name];
+    } else {
+      self::$options[$name] = $value;
+    }
   }
 
   /**
@@ -314,7 +337,7 @@ class Qb {
   }
 
   /**
-   * 条件セット
+   * 挿入・更新値セット
    *
    * @param string $column カラム名
    * @param mixed $value 値
@@ -329,6 +352,34 @@ class Qb {
     }
     $this->sets += $sets;
     return $this;
+  }
+
+  /**
+   * UPDATE or INSERT
+   *
+   * @param string $column カラム名
+   * @param mixed $value 値
+   *
+   * @return string プライマリキーの値
+   */
+  public function save($column = null, $value = null) {
+    if ($column) $this->set($column, $value);
+    $st = $this->_build();
+    return self::$db->lastInsertId();
+  }
+
+  /**
+   * UPDATE
+   *
+   * @param string $column カラム名
+   * @param mixed $value 値
+   *
+   * @return string プライマリキーの値
+   */
+  public function update($column = null, $value = null) {
+    if ($column) $this->set($column, $value);
+    $st = $this->_build(array('only_update' => true));
+    return self::$db->lastInsertId();
   }
 
   /**
@@ -377,32 +428,6 @@ class Qb {
   public function offset($num) {
     $this->offset = " OFFSET $num";
     return $this;
-  }
-
-  /**
-   * UPDATE or INSERT
-   *
-   * @param string $column カラム名
-   * @param mixed $value 値
-   *
-   * @return Qb 自分自身のインスタンス
-   */
-  public function save($column = null, $value = null) {
-    if ($column) $this->set($column, $value);
-    $st = $this->_build();
-  }
-
-  /**
-   * UPDATE
-   *
-   * @param string $column カラム名
-   * @param mixed $value 値
-   *
-   * @return Qb 自分自身のインスタンス
-   */
-  public function update($column = null, $value = null) {
-    if ($column) $this->set($column, $value);
-    $st = $this->_build(array('only_update' => true));
   }
 
   /**
