@@ -102,15 +102,15 @@ LEFT OUTER JOINです。
 ## INSERT
 
 ```php
-$json = Qb('contact')->save(['name' => '鈴木一郎', 'age' => 19]);
+$id = Qb('contact')->save(['name' => '鈴木一郎', 'age' => 19]);
 ```
 
-contactテーブルにnameカラムが「鈴木一郎」、ageカラムが「19」でレコードを挿入します。
+contactテーブルにnameカラムが「鈴木一郎」、ageカラムが「19」でレコードを挿入します。戻り値はプライマリキーの値です。
 
 ## INSERT or UPDATE
 
 ```php
-$json = Qb('contact')->where('age', 20)->save(['name' => '鈴木一郎', 'age' => 19]);
+Qb('contact')->where('age', 20)->save(['name' => '鈴木一郎', 'age' => 19]);
 ```
 
 WHERE句がある場合はまずUPDATEを試みて、対象のレコードが無ければINSERTします。
@@ -118,10 +118,24 @@ WHERE句がある場合はまずUPDATEを試みて、対象のレコードが無
 ## UPDATE
 
 ```php
-$json = Qb('contact')->where('age', 20)->update(['name' => '鈴木一郎', 'age' => 19]);
+Qb('contact')->where('age', 20)->update(['name' => '鈴木一郎', 'age' => 19]);
 ```
 
 こちらは対象のレコードが無くてもINSERTされません。
+
+```php
+Qb('contact')->where('age', 20)->update('name', '鈴木一郎');
+```
+
+1カラムのみの変更の場合はこのように書くことも出来ます。
+
+## SET
+
+```php
+Qb('contact')->where('age', 20)->set('age', 19)->set('name', '鈴木一郎')->update();
+```
+
+setでチェーンを繋げてからINSERT, UPDATEが出来ます。
 
 ## DELETE
 
