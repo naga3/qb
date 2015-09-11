@@ -1,4 +1,4 @@
-# Qb: very simple query builder
+# Qb: Simple query builder
 
 バックエンドのAPI提供あたりを想定した、シンプルなPDOクエリビルダです。
 なるべく短く書けるのを念頭に作成しました。
