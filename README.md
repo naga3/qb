@@ -146,13 +146,13 @@ setでチェーンを繋げてからINSERT, UPDATEが出来ます。
 ## DELETE
 
 ```php
-$json = Qb('contact')->where('age', 20)->delete();
+Qb('contact')->where('age', 20)->delete();
 ```
 
 contactテーブルのageカラムが20のレコードを全て削除します。
 
 ```php
-$json = Qb('contact')->delete(1);
+Qb('contact')->delete(1);
 ```
 
 contactテーブルのidカラムが1のレコードを削除します。
