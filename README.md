@@ -4,7 +4,7 @@
 なるべく短く書けるのを念頭に作成しました。
 
 ```php
-$json = Qb('contact')->toJson();
+$rows = Qb('contact')->toJson();
 ```
 
 これだけでcontactテーブルの一覧をJSONで返すことが出来ます。
@@ -52,19 +52,19 @@ Qb::connect('mysql:host=localhost;dbname=sample', 'user', 'pass');
 ## SELECT
 
 ```php
-$json = Qb('contact')->toJson();
+$rows = Qb('contact')->toJson();
 ```
 
 contactテーブルの一覧をJSONで返却します。
 
 ```php
-$ary = Qb('contact')->select('name')->select('tel')->toArray();
+$rows = Qb('contact')->select('name')->select('tel')->toArray();
 ```
 
 contactテーブル一覧のname, telカラムを配列で返却します。
 
 ```php
-$obj = Qb('contact')->select(['name', 't' => 'tel'])->toObject();
+$rows = Qb('contact')->select(['name', 't' => 'tel'])->toObject();
 ```
 
 contactテーブル一覧のnameカラムをそのまま、telカラムは別名tでオブジェクトとして返却します。
@@ -72,21 +72,21 @@ contactテーブル一覧のnameカラムをそのまま、telカラムは別名
 ## WHERE
 
 ```php
-$json = Qb('contact')->where('id', 1)->oneArray();
+$row = Qb('contact')->where('id', 1)->oneArray();
 ```
 
 contactテーブルのidカラムが1のものを一行返却します。
 
 ```php
-$json = Qb('contact')->where(1)->oneArray(); // idカラムの場合、カラム指定を省略可能
-$json = Qb('contact')->oneArray('id', 1);
-$json = Qb('contact')->oneArray(1);
+$row = Qb('contact')->where(1)->oneArray(); // idカラムの場合、カラム指定を省略可能
+$row = Qb('contact')->oneArray('id', 1);
+$row = Qb('contact')->oneArray(1);
 ```
 
 このような省略記法もあります。
 
 ```php
-$json = Qb('contact')->whereGte('status', 1)->whereLike('name', '%山田%')->toJson();
+$rows = Qb('contact')->whereGte('status', 1)->whereLike('name', '%山田%')->toJson();
 ```
 
 contactテーブルのstatusカラムが1以上で、名前に「山田」が含まれているものを返却します。
@@ -94,13 +94,13 @@ contactテーブルのstatusカラムが1以上で、名前に「山田」が含
 ## JOIN
 
 ```php
-$json = Qb('contact')->join('access', 'access.contact_id = contact.id')->toJson();
+$rows = Qb('contact')->join('access', 'access.contact_id = contact.id')->toJson();
 ```
 
 INNER JOINです。access.contact_id = contact.id が結合条件です。
 
 ```php
-$json = Qb('contact')->leftJoin('access', 'access.contact_id = contact.id')->toJson();
+$rows = Qb('contact')->leftJoin('access', 'access.contact_id = contact.id')->toJson();
 ```
 
 LEFT OUTER JOINです。
@@ -160,13 +160,13 @@ contactテーブルのidカラムが1のレコードを削除します。
 ## ORDER BY
 
 ```php
-$json = Qb('contact')->asc('created_at')->toJson();
+$rows = Qb('contact')->asc('created_at')->toJson();
 ```
 
 contactテーブルの一覧をcreated_atカラムの昇順で返します。
 
 ```php
-$json = Qb('contact')->desc('created_at')->toJson();
+$rows = Qb('contact')->desc('created_at')->toJson();
 ```
 
 contactテーブルの一覧をcreated_atカラムの降順で返します。
@@ -174,7 +174,7 @@ contactテーブルの一覧をcreated_atカラムの降順で返します。
 ## OFFSET, LIMIT
 
 ```php
-$json = Qb('contact')->offset(10)->limit(5)->toJson();
+$rows = Qb('contact')->offset(10)->limit(5)->toJson();
 ```
 
 contactテーブルの一覧の10件目から5件を取得します。
