@@ -44,6 +44,7 @@ sample/todo.php がAngularJSを組み合わせたToDoリストのサンプルで
 
 ```php
 Qb::connect('sqlite:sample.db');
+Qb::connect('mysql:host=localhost;dbname=sample', 'user', 'pass');
 ```
 
 指定したDSNに接続します。
