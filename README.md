@@ -58,13 +58,13 @@ $json = Qb('contact')->toJson();
 contactテーブルの一覧をJSONで返却します。
 
 ```php
-$json = Qb('contact')->select('name')->select('tel')->toArray();
+$ary = Qb('contact')->select('name')->select('tel')->toArray();
 ```
 
 contactテーブル一覧のname, telカラムを配列で返却します。
 
 ```php
-$json = Qb('contact')->select(['name', 't' => 'tel'])->toObject();
+$obj = Qb('contact')->select(['name', 't' => 'tel'])->toObject();
 ```
 
 contactテーブル一覧のnameカラムをそのまま、telカラムは別名tでオブジェクトとして返却します。
