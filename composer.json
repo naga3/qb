@@ -1,6 +1,6 @@
 {
     "name": "naga3/qb",
-    "description": "Very simple query builder",
+    "description": "Qb: Simple query builder",
     "keywords": ["query builder", "pdo"],
     "type": "library",
     "license": "MIT",

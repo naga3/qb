@@ -1,15 +1,20 @@
 # Qb: very simple query builder
 
-https://github.com/naga3/qb
-
-https://packagist.org/packages/naga3/qb
-
-API提供あたりを想定したシンプルなPDOクエリビルダです。
+バックエンドのAPI提供あたりを想定した、シンプルなPDOクエリビルダです。
 なるべく短く書けるのを念頭に作成しました。
 
-1プログラム1接続が前提で、大規模なプログラムには向いていません。
+```php
+$json = Qb('contact')->toJson();
+```
+
+これだけでcontactテーブルの一覧をJSONで返すことが出来ます。
+
+## リソース
 
 doc/index.html にリファレンスがあります。
+
+* GitHub https://github.com/naga3/qb
+* Packagist https://packagist.org/packages/naga3/qb
 
 ## インストール方法
 
@@ -195,6 +200,6 @@ $options = [
 Qb::connect($dsn, $user, $pass, $options);
 ```
 
-# 最後に
+# 注意点
 
-プルリクまってます！
+* 1プログラム1接続が前提で、大規模なプログラムには向いていません。
