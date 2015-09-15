@@ -170,10 +170,10 @@ $rows = Qb('contact')->asc('created_at')->toJson();
 contactテーブルの一覧をcreated_atカラムの昇順で返します。
 
 ```php
-$rows = Qb('contact')->desc('created_at')->toJson();
+$rows = Qb('contact')->desc('created_at')->asc('id')->toJson();
 ```
 
-contactテーブルの一覧をcreated_atカラムの降順で返します。
+contactテーブルの一覧をcreated_atカラムの降順、idの昇順で返します。
 
 ## OFFSET, LIMIT
 

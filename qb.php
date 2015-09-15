@@ -1,13 +1,12 @@
 <?php
 /**
- * Qb: Very simple query builder
+ * Qb: Simple query builder
  *
- * @version 1.0.5
  * @author Osamu Nagayama
  */
 
 /**
- * クエリビルダクラス
+ * Qb
  *
  * @since PHP 5.4
  */
@@ -18,6 +17,9 @@ class Qb {
 
   /** @var array 接続時のオプション */
   protected static $options = [];
+
+  /** @var string 最後に実行したSQL文 */
+  protected static $last_sql = '';
 
   /** @var string テーブル名 */
   protected $table = null;
@@ -41,7 +43,7 @@ class Qb {
   protected $set_binds = [];
 
   /** @var string ORDER BY */
-  protected $order = '';
+  protected $orders = [];
 
   /** @var string LIMIT */
   protected $limit = '';
@@ -67,6 +69,15 @@ class Qb {
    */
   public static function db() {
     return self::$db;
+  }
+
+  /**
+   * 最後に実行したSQL文を取得する（デバッグ用）。
+   *
+   * @return string SQL文
+   */
+  public static function lastSql() {
+    return self::$last_sql;
   }
 
   /**
@@ -348,7 +359,7 @@ class Qb {
     if (is_array($column)) {
       $sets = $column;
     } else {
-      $sets = array($column => $value);
+      $sets = [$column => $value];
     }
     $this->sets += $sets;
     return $this;
@@ -378,7 +389,7 @@ class Qb {
    */
   public function update($column = null, $value = null) {
     if ($column) $this->set($column, $value);
-    $st = $this->_build(array('only_update' => true));
+    $st = $this->_build(['only_update' => true]);
     return self::$db->lastInsertId();
   }
 
@@ -390,7 +401,7 @@ class Qb {
    * @return Qb 自分自身のインスタンス
    */
   public function asc($column) {
-    $this->order = " ORDER BY $column ASC";
+    array_push($this->orders, "$column ASC");
     return $this;
   }
 
@@ -402,7 +413,7 @@ class Qb {
    * @return Qb 自分自身のインスタンス
    */
   public function desc($column) {
-    $this->order = " ORDER BY $column DESC";
+    array_push($this->orders, "$column DESC");
     return $this;
   }
 
@@ -585,7 +596,9 @@ class Qb {
         if ($joins) {
           $sql .= " $joins";
         }
-        $sql .= $sql_where . $this->order . $this->limit . $this->offset;
+        $order = '';
+        if (count($this->orders) > 0) $order = ' ORDER BY ' . implode(',', $this->orders);
+        $sql .= $sql_where . $order . $this->limit . $this->offset;
         $st = $this->_query($sql);
       }
     }
@@ -603,6 +616,7 @@ class Qb {
     $binds = array_merge($this->set_binds, $this->condition_binds);
     $st = self::$db->prepare($sql);
     $st->execute($binds);
+    self::$last_sql = $sql;
     return $st;
   }
 }

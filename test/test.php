@@ -101,4 +101,20 @@ class QbTest extends PHPUnit_Framework_TestCase {
     $r = Qb('test')->oneArray(3);
     $this->assertEmpty($r);
   }
+
+  // ORDER BYテスト
+  public function testOrder() {
+    Qb('test')->delete();
+    $id = Qb('test')->save(['no' => 1, 'name' => 'A']);
+    $id = Qb('test')->save(['no' => 2, 'name' => 'B']);
+    $id = Qb('test')->save(['no' => 3, 'name' => 'B']);
+    $id = Qb('test')->save(['no' => 4, 'name' => 'C']);
+    $r = Qb('test')->asc('name')->desc('no')->toArray();
+    $this->assertEquals([
+      ['id' => 1, 'no' => 1, 'name' => 'A'],
+      ['id' => 3, 'no' => 3, 'name' => 'B'],
+      ['id' => 2, 'no' => 2, 'name' => 'B'],
+      ['id' => 4, 'no' => 4, 'name' => 'C'],
+    ], $r);
+  }
 }
