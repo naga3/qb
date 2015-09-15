@@ -1,5 +1,5 @@
 /vendor/
 composer.lock
 composer.phar
-/sample/sample.db
-/test/qb_test.db
+sample.db
+qb_test.db
