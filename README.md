@@ -1,57 +1,59 @@
 # Qb: Simple query builder
 
-バックエンドのAPI提供あたりを想定した、シンプルなPDOクエリビルダです。
-なるべく短く書けるのを念頭に作成しました。
+[Japanese README](https://github.com/naga3/qb/blob/master/README.ja.md)
+
+This was assumed per the provision of the back-end API, a simple PDO query builder.
+I was created in mind is that the write as short as possible the code.
 
 ```php
 $rows = Qb('contact')->toJson();
 ```
 
-これだけでcontactテーブルの一覧をJSONで返すことが出来ます。
+Just only this you can return a list of the contact table in JSON.
 
-## 対象ユーザー
+## Audiences
 
-生のPDOをそのまま使うのは面倒臭いけど、本格的なDBライブラリは機能過剰だと感じている方。
+Though it is to use the raw PDO as it is troublesome, who full-fledged DB library feels overkill function.
 
-## リソース
+## Resources
 
-doc/index.html にリファレンスがあります。
+doc/index.html is a reference.
 
 * GitHub https://github.com/naga3/qb
 * Packagist https://packagist.org/packages/naga3/qb
 
-## インストール方法
+## How to install
 
-qb.phpをrequireするだけでOKです。
+only require 'qb.php'.
 
-Composerを使う場合は、
+If you use the Composer is,
 
 ```
 composer require naga3/qb
 ```
 
-でインストールし、autoloadで読み込みます。
+Install Now you read in the autoload.
 
 ```php
 require_once 'vendor/autoload.php';
 ```
 
-## サンプル
+## Samples
 
-sample/contact.php が簡単なコンタクトリストのサンプルです。
-sample/todo.php がAngularJSを組み合わせたToDoリストのサンプルです。
-どちらのサンプルもPDO_SQLITEモジュールが導入されていればそのまま動きます。
+sample/contact.php is a sample of a simple contact list.
+sample/todo.php is a sample of the ToDo list that combines AngularJS.
+Both samples PDO_SQLITE module is I will work as it is if it is introduced.
 
 # API
 
-## 接続
+## Connection
 
 ```php
 Qb::connect('sqlite:sample.db');
 Qb::connect('mysql:host=localhost;dbname=sample', 'user', 'pass');
 ```
 
-指定したDSNに接続します。
+Connect to the specified DSN.
 
 ## SELECT
 
@@ -59,19 +61,19 @@ Qb::connect('mysql:host=localhost;dbname=sample', 'user', 'pass');
 $rows = Qb('contact')->toJson();
 ```
 
-contactテーブルの一覧をJSONで返却します。
+It will return a list of the contact table in JSON.
 
 ```php
 $rows = Qb('contact')->select('name')->select('tel')->toArray();
 ```
 
-contactテーブル一覧のname, telカラムを配列で返却します。
+It will return the name column and tel column of the table contact list in the array.
 
 ```php
 $rows = Qb('contact')->select(['name', 't' => 'tel'])->toObject();
 ```
 
-contactテーブル一覧のnameカラムをそのまま、telカラムは別名tでオブジェクトとして返却します。
+name column of the table contact list I returned unchanged. And tel column will return as an object with an alias t.
 
 ## WHERE
 
@@ -79,21 +81,21 @@ contactテーブル一覧のnameカラムをそのまま、telカラムは別名
 $row = Qb('contact')->where('id', 1)->oneArray();
 ```
 
-contactテーブルのidカラムが1のものを一行返却します。
+id column of contact table will return one line of 1.
 
 ```php
-$row = Qb('contact')->where(1)->oneArray(); // idカラムの場合、カラム指定を省略可能
+$row = Qb('contact')->where(1)->oneArray(); // In the case of id column, it can be omitted column specified
 $row = Qb('contact')->oneArray('id', 1);
 $row = Qb('contact')->oneArray(1);
 ```
 
-このような省略記法もあります。
+There is also such shorthand.
 
 ```php
-$rows = Qb('contact')->whereGte('status', 1)->whereLike('name', '%山田%')->toJson();
+$rows = Qb('contact')->whereGte('status', 1)->whereLike('name', '%Yamada%')->toJson();
 ```
 
-contactテーブルのstatusカラムが1以上で、名前に「山田」が含まれているものを返却します。
+In status column of the contact table is 1 or more, it will return the ones that contain "Yamada" in the name.
 
 ## JOIN
 
@@ -101,51 +103,51 @@ contactテーブルのstatusカラムが1以上で、名前に「山田」が含
 $rows = Qb('contact')->join('access', 'access.contact_id = contact.id')->toJson();
 ```
 
-INNER JOINです。access.contact_id = contact.id が結合条件です。
+INNER JOIN. 'access.contact_id = contact.id' is binding conditions.
 
 ```php
 $rows = Qb('contact')->leftJoin('access', 'access.contact_id = contact.id')->toJson();
 ```
 
-LEFT OUTER JOINです。
+LEFT OUTER JOIN.
 
 ## INSERT
 
 ```php
-$id = Qb('contact')->save(['name' => '鈴木一郎', 'age' => 19]);
+$id = Qb('contact')->save(['name' => 'Ichiro Suzuki', 'age' => 19]);
 ```
 
-contactテーブルにnameカラムが「鈴木一郎」、ageカラムが「19」でレコードを挿入します。戻り値はプライマリキーの値です。
+to contact table name column is "Ichiro Suzuki", insert the record age column is "19". The return value is the value of the primary key.
 
 ## INSERT or UPDATE
 
 ```php
-Qb('contact')->where('age', 20)->save(['name' => '鈴木一郎', 'age' => 19]);
+Qb('contact')->where('age', 20)->save(['name' => 'Ichiro Suzuki', 'age' => 19]);
 ```
 
-WHERE句がある場合はまずUPDATEを試みて、対象のレコードが無ければINSERTします。
+In an attempt to first UPDATE If there is a WHERE clause to INSERT if there is no record of the target.
 
 ## UPDATE
 
 ```php
-Qb('contact')->where('age', 20)->update(['name' => '鈴木一郎', 'age' => 19]);
+Qb('contact')->where('age', 20)->update(['name' => 'Ichiro Suzuki', 'age' => 19]);
 ```
 
-こちらは対象のレコードが無くてもINSERTされません。
+Here even if there is no record of the target will not be INSERT.
 
 ```php
-Qb('contact')->where('age', 20)->update('name', '鈴木一郎');
+Qb('contact')->where('age', 20)->update('name', 'Ichiro Suzuki');
 ```
 
-1カラムのみの変更の場合はこのように書くことも出来ます。
+1 column only change you can also be written as this.
 
 ## SET
 
 ```php
-Qb('contact')->where('age', 20)->set('age', 19)->set('name', '鈴木一郎')->update();
+Qb('contact')->where('age', 20)->set('age', 19)->set('name', 'Ichiro Suzuki')->update();
 ```
 
-setでチェーンを繋げてからINSERT, UPDATEが出来ます。
+INSERT and from connecting the chain set, you can UPDATE.
 
 ## DELETE
 
@@ -153,13 +155,13 @@ setでチェーンを繋げてからINSERT, UPDATEが出来ます。
 Qb('contact')->where('age', 20)->delete();
 ```
 
-contactテーブルのageカラムが20のレコードを全て削除します。
+age column of contact table will remove all 20 of the record.
 
 ```php
 Qb('contact')->delete(1);
 ```
 
-contactテーブルのidカラムが1のレコードを削除します。
+id column of contact table will delete a record.
 
 ## ORDER BY
 
@@ -167,13 +169,13 @@ contactテーブルのidカラムが1のレコードを削除します。
 $rows = Qb('contact')->asc('created_at')->toJson();
 ```
 
-contactテーブルの一覧をcreated_atカラムの昇順で返します。
+It will return a list of the contact table in ascending order of created_at column.
 
 ```php
 $rows = Qb('contact')->desc('created_at')->asc('id')->toJson();
 ```
 
-contactテーブルの一覧をcreated_atカラムの降順、idの昇順で返します。
+It will return a list of the contact table in descending order of created_at column, in ascending order of id.
 
 ## OFFSET, LIMIT
 
@@ -181,30 +183,30 @@ contactテーブルの一覧をcreated_atカラムの降順、idの昇順で返�
 $rows = Qb('contact')->offset(10)->limit(5)->toJson();
 ```
 
-contactテーブルの一覧の10件目から5件を取得します。
+You get 5 from 10 th in the list of contact table.
 
-## PDOオブジェクト取得
+## PDO object acquisition
 
 ```php
 $db = Qb('contact')->db();
 ```
 
-生のPDOオブジェクトを取得します。トランザクションを張る場合などにどうぞ。
+You get the raw PDO object. Please, for example, when you put the transaction.
 
-## 接続時のオプション
+## Option when connecting
 
 ```php
 $options = [
-  // プライマリキー
+  // Primary key
   'primary_key' => 'id',
   // ERRMODE
   'error_mode' => PDO::ERRMODE_EXCEPTION,
-  // json_encode時のオプション
+  // json_encode options
   'json_options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
 ];
 Qb::connect($dsn, $user, $pass, $options);
 ```
 
-# 注意点
+# important point
 
-* 1プログラム1接続が前提で、大規模なプログラムには向いていません。
+* 1 Program 1 connection with the assumption, is not suitable for large-scale programs.
